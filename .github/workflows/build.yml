@@ -23,7 +23,7 @@ jobs:
       run: dir
 
     - name: Build EXE
-      run: pyinstaller --onefile test_program.py
+      run: pyinstaller --onefile MYEXE.py
 
     - name: Show dist folder
       run: dir dist
