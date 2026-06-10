@@ -11,25 +11,28 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
+    - name: Show files (debug)
+      run: dir
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
+
     - name: Install Nuitka
-      run: |
-        python -m pip install --upgrade pip
-        pip install nuitka
+      run: pip install nuitka
 
-    - name: Verify files
-      run: dir
-
-    - name: Setup MSVC environment
+    - name: Install MSVC build tools
       uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Build EXE
-      run: |
-        python -m nuitka --onefile myexe.py
+    - name: Verify compiler
+      run: where cl
+
+    - name: Build EXE (Nuitka onefile)
+      run: python -m nuitka --onefile --assume-yes-for-downloads myexe.py
 
     - name: Show output
       run: dir
@@ -37,7 +40,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: exe
+        name: exe-build
         path: |
           *.exe
           *.dist/**
+          *.bin
