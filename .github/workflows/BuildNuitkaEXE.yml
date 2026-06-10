@@ -21,10 +21,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install nuitka
 
-    - name: Install compiler (MSVC)
-      uses: microsoft/setup-msbuild@v2
+    - name: Install Visual Studio Build Tools
+      uses: ilammy/msvc-dev-cmd@v1
 
-    - name: Build with Nuitka
+    - name: Build EXE with Nuitka
       run: |
         python -m nuitka --onefile myexe.py
 
@@ -34,5 +34,4 @@ jobs:
         name: exe-build
         path: |
           *.exe
-          *.bin
           *.dist/**
