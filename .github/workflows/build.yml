@@ -8,18 +8,25 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
-    - name: Install PyInstaller
-      run: pip install pyinstaller
+    - name: Install dependencies
+      run: python -m pip install --upgrade pip pyinstaller
+
+    - name: List files (debug step)
+      run: dir
 
     - name: Build EXE
       run: pyinstaller --onefile test_program.py
+
+    - name: Show dist folder
+      run: dir dist
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
